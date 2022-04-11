@@ -16,7 +16,9 @@
 	<div class="d-flex flex-column vh-100">
 		<nav class="bg-dark navbar navbar-dark font-weight-bold ">
 			<a class="navbar-brand" href="#"> 
-				<img src="/webapp/resources/images/logo-spring.png" width="30" height="30" class="d-inline-block align-top" > 
+				<%-- <img src="${pageContext.request.contextPath}/resources/images/logo-spring.png" width="30" height="30" class="d-inline-block align-top" > --%>
+				<img src="<%=request.getContextPath() %>/resources/images/logo-spring.png" width="30" height="30" class="d-inline-block align-top" > 
+				
 				Spring
 			</a>
 			<div>
