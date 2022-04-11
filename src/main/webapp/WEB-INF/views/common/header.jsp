@@ -21,6 +21,7 @@
 			</a>
 			<div>
 				<a href="#" class="btn btn-success btn-small">로그인</a>
+			</div>	
 		</nav>
 		<div class="container-fluid flex-grow-1">
 			<div class="row h-100">
@@ -36,5 +37,5 @@
 				<div class="col-md-8">
 					<div class="h-100 d-flex flex-column">
 						<div class="flex-grow-1 pr-3" style="height: 0px; overflow-y: auto; overflow-x: auto;">
-
+						
 				
