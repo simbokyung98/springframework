@@ -19,7 +19,7 @@ public class HomeController {
 	
 	@RequestMapping( "/")
 	public String home() {
-		logger.debug("실행");
+		logger.info("실행");
 		
 		return "home";//view 이름만 전달
 	}
