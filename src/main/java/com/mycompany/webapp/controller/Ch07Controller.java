@@ -149,4 +149,13 @@ public class Ch07Controller {
 	public String commandObject(Ch07Cloth cloth) {
 		return "ch07/clothInfo";
 	}
+	//요청 매핑 메소드 실행시마다 먼저 실행됨 (새로운 세션 저장소를 생성)
+	@ModelAttribute("commonData")
+	public Ch07Board getCommonData() {
+		log.info("실행");
+		Ch07Board board = new Ch07Board(3, "제목"+3 , "내용"+3, "글쓴이"+3, new Date());
+		return board;
+		
+	}
+	
 }

@@ -5,16 +5,22 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+
+import com.mycompany.webapp.dto.Ch08InputForm;
 
 import lombok.extern.log4j.Log4j2;
 
 @Controller
 @RequestMapping("/ch08")
 @Log4j2
+@SessionAttributes("inputForm")//이게 추가되면 세션 저장소가 바뀌면 안되기 때문에 	@ModelAttribute("inputForm")이거 한번만 실행됨
 public class Ch08Controller {
 	@RequestMapping("/content")
 	public String content() {
@@ -79,6 +85,37 @@ public class Ch08Controller {
 		log.info("member id : " + memberid);
 		log.info("sessionMid : " + sessionMid);
 		log.info("mid : " + mid);
+		return "redirect:/ch08/content";
+	}
+	//새로운 세션 저장소에 객체를 저장하는 역할
+	//@SessionAttributes("inputForm") 이게 있으면해당 세션을 처음 만들때만 실행되고 다음부터는 만들어진 객체에 저장하기만 함
+	@ModelAttribute("inputForm")
+	public Ch08InputForm getCh08InputForm() {
+		log.info("실행");
+		Ch08InputForm inputForm = new Ch08InputForm();
+		return inputForm;
+	}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+	@GetMapping("/inputStep1")
+	public String inputStep1() {
+		
+		return "/ch08/inputStep1";
+	}
+	
+	@PostMapping("/inputStep2")
+	public String inputStep2(@ModelAttribute("inputForm") Ch08InputForm intInputForm) {
+		log.info("data1 : "+ intInputForm.getData1());
+		log.info("data1 : "+ intInputForm.getData2());
+		return "/ch08/inputStep2";
+	}
+	
+	@PostMapping("/inputDone")
+	public String inputStep3(@ModelAttribute("inputForm") Ch08InputForm intInputForm, SessionStatus sessionStatus) {
+		log.info("data1 : "+ intInputForm.getData1());
+		log.info("data1 : "+ intInputForm.getData2());
+		log.info("data3 : "+ intInputForm.getData3());
+		log.info("data4 : "+ intInputForm.getData4());
+		sessionStatus.setComplete();
 		return "redirect:/ch08/content";
 	}
 	
