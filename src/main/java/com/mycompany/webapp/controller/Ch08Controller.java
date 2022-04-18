@@ -87,6 +87,43 @@ public class Ch08Controller {
 		log.info("mid : " + mid);
 		return "redirect:/ch08/content";
 	}
+	
+	//ajax 로 전송한 파일로 로그인 처리
+		@RequestMapping(value="/loginAjax", produces="application/json; charset=UTF-8")
+		@ResponseBody
+		public String loginAjax(String mid, String mpassword, HttpSession session) {
+			String result = null;
+			
+			if(mid.equals("spring")) {
+				if(mpassword.equals("12345")) {
+					result = "success";
+					session.setAttribute("sessionMid", mid);
+				} else {
+					result = "wrongMpassword";
+				}
+			} else {
+				result = "wrongMid";
+			}
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("result", result);
+			String json = jsonobject.toString();
+			return json;
+		}
+		
+		//ajax로 로그아웃 요청
+		@RequestMapping(value="/logoutAjax", produces="application/json; charset=UTF-8")
+		@ResponseBody
+		public String logoutAjax(HttpSession session) {
+			session.removeAttribute("sessionMid");
+			
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("result", "success");
+			String json = jsonobject.toString();
+			return json;
+		}
+	
+
+	
 	//새로운 세션 저장소에 객체를 저장하는 역할
 	//@SessionAttributes("inputForm") 이게 있으면해당 세션을 처음 만들때만 실행되고 다음부터는 만들어진 객체에 저장하기만 함
 	@ModelAttribute("inputForm")

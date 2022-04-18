@@ -1,13 +1,20 @@
 package com.mycompany.webapp.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,6 +84,40 @@ public class Ch09Controller {
 		//byte[] bytes = null;//파일의 사이즈가 작을 경우에만 가능 [서버 터짐]
 		
 		return json;
+	}
+	
+	@RequestMapping("/filedownload")//매개변수 : fileName[get 넘어온 값],response[응답용], userAgent[브라우저 검색용]
+	public void filedownload(int fileNo, HttpServletResponse response, @RequestHeader("User-Agent") String userAgent) throws Exception {
+		
+		//DB에서 가져올 정보
+		String contentType = "image/png";
+		String originalFilename = "포터블 엑스레이.png";
+		String saveFiename = "1650008145938-포터블 엑스레이.png";
+		
+		//응답 내용의 데이터 타입을 응답 헤더에 추가
+		response.setContentType(contentType);
+		//response.setHeader("Content-Type", contentType);//두가지 다 동일
+		
+		
+		//다운로드할 파일명을 헤더에 추가 [Trident : 익스플로어 11 / MSIE : 익스플로어 10 이하 ]
+		if(userAgent.contains("Trident") ||userAgent.contains("MSIE")) {
+			//IE 브라우저일 경우
+			//한글이 있을경우 UTF-8로 변경하여 바이트로 전송해야함
+			originalFilename = URLEncoder.encode(originalFilename,"UTF-8");
+		}else {
+			//크롬, 엣지, 사파리
+			//파일을  UTF-8 형식으로 바이트 배열로 만들어서 다시 ISO-8859-1 문자셋으로 표현
+			originalFilename = new String(originalFilename.getBytes("UTF-8"),"ISO-8859-1");
+		}
+		
+		//파일을 첨부해 다운로드 하도록 설정
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + originalFilename + "\"");
+		
+		//파일 데이터를 응답 본문에 실기
+		File file = new File("C:/Temp/uploadfiles/" + saveFiename);
+		if(file.exists()) {
+			FileCopyUtils.copy( new FileInputStream(file), response.getOutputStream());
+		}
 	}
 	
 }
