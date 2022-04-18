@@ -66,4 +66,10 @@
 			<a href="${pageContext.request.contextPath}/ch11/content" class="text-white">View/Spring Tag Library</a>
 		</h6>
 	</li>
+	<li class="nav-item mb-2">
+		<h6 class="text-white">
+			<span class="mr-2">Ch12.</span>
+			<a href="${pageContext.request.contextPath}/ch12/content" class="text-white">View/BeanNameViewResolver</a>
+		</h6>
+	</li>
 </ul>
