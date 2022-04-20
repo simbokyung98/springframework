@@ -18,6 +18,7 @@ public class Ch10Controller {
 		return "ch10/content";
 	}
 	
+	//기본적인 에러처리
 	@RequestMapping("/handlingException1")
 	public String handlingException1(String data) {
 		try {
