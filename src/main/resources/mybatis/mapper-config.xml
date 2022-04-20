@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 문서 유형 선언 -->
+<!-- root tag가 어떤 것인지, 태그 내용, 태그 작성 순서(dtd 내부 정의), 위에 url은 dtd 파일이 공식적으로 불리는 이름임  -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 루트 태그(엘리먼트) -->  
+<configuration>
+	   <typeAliases>
+	     <typeAlias type="com.mycompany.webapp.dto.Ch14Member" alias="member"/>
+	     <typeAlias type="com.mycompany.webapp.dto.Ch14Board" alias="board"/>
+	     <typeAlias type="com.mycompany.webapp.dto.Pager" alias="pager"/>
+	     <typeAlias type="com.mycompany.webapp.dto.Ch16Account" alias="account"/> 
+	  </typeAliases>
+</configuration> 
