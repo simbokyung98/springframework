@@ -26,13 +26,16 @@
 	</select>
 	
 	<insert id="insert" parameterType="board">
+		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	         select SEQ_BNO.nextval from dual
+	    </selectKey>
 		<if test="battachoname == null">
 			INSERT INTO board (bno, btitle, bcontent, bdate, mid, bhitcount)
-			VALUES(SEQ_BNO.nextval, #{btitle}, #{bcontent}, SYSDATE, #{mid}, 0)
+			VALUES(${bno}, #{btitle}, #{bcontent}, SYSDATE, #{mid}, 0)
 		</if>
 		<if test="battachoname != null">
 			INSERT INTO board (bno, btitle, bcontent, bdate, mid, bhitcount, battachoname, battachsname, battachtype)
-			VALUES(SEQ_BNO.nextval, #{btitle}, #{bcontent}, SYSDATE, #{mid}, 0, #{battachoname}, #{battachsname}, #{battachtype})
+			VALUES(${bno}, #{btitle}, #{bcontent}, SYSDATE, #{mid}, 0, #{battachoname}, #{battachsname}, #{battachtype})
 		</if>
 	</insert>
 	
