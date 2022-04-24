@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,13 +29,28 @@
 				Spring
 			</a>
 			<div>
-				<c:if test="${sessionMid == null }">
+				<%-- <c:if test="${sessionMid == null }">
 					<a href="<%=request.getContextPath() %>/ch08/login" class="btn btn-success btn-small">로그인</a>
 				</c:if>
 				<c:if test="${sessionMid != null }">
 					<b class="text-white mr-2">User Id : ${sessionMid }</b>
 					<a href="<%=request.getContextPath() %>/ch08/logout" class="btn btn-success btn-small">로그아웃</a>
-				</c:if>
+				</c:if> --%>
+				
+				<sec:authorize access="isAnonymous()"> <%-- 인증 되지 않았을 경우 --%>
+					<a href="<%=request.getContextPath() %>/ch08/login" class="btn btn-success btn-small">로그인</a>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()"> <%-- 인증 되었을 경우 --%>
+					<b class="text-white mr-2">User Id :<sec:authentication property="principal.username"/> </b>
+					<%-- CSRF 비활성화 --%>
+					<%--<a href="${pageContext.request.contextPath}/ch08/logout" class="btn btn-success btn-small">로그아웃</a>--%>
+					<%-- CSRF 활성화 --%>
+					<form method="post" action="${pageContext.request.contextPath}/logout">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" style="display:inline-block;"/>
+                        <button class="btn btn-success btn-sm">Ch17 로그아웃</button>
+                     </form>
+				</sec:authorize>
+				
 			</div>	
 		</nav>
 		<div class="container-fluid flex-grow-1">
